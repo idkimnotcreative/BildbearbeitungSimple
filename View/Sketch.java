@@ -1,8 +1,10 @@
+package View;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PFont;
 import javafx.scene.paint.Color;
 import java.util.function.*;
+import java.util.Objects;
 
 /**
  * 
@@ -35,18 +37,19 @@ public class Sketch extends PApplet
     @Override
     public void setup()
     {    
-        displayImg = createImage(width,height,RGB);
-        image(displayImg,0,0);
     }
 
-    public void runOpL(UnaryOperator<PImage> gop)
+    public void updateImage( PImage image, int[] pixels )
     {
-        displayImg = gop.apply(displayImg);
+        this.displayImg = image;
+        this.displayImg.loadPixels();
+        this.displayImg.pixels = pixels;
+        this.displayImg.updatePixels();
     }
     
-    public void runOp( Bildoperationen gop)
+    public PImage readImage()
     {
-        displayImg = gop.apply(displayImg);
+        return this.displayImg;
     }
 
     /**
@@ -58,7 +61,7 @@ public class Sketch extends PApplet
     {
         displayImg.save(filename);
     }
-    
+
     /**
      * Läd ein neues Bild in die Anzeige
      *
@@ -68,7 +71,7 @@ public class Sketch extends PApplet
     {
         displayImg = loadImage( filename );
     }
-    
+
     /**
      * Die draw() Methode wird nach der setup() Methode aufgerufen
      * und führt den Code innerhalb ihres Blocks fortlaufend aus,
@@ -77,6 +80,10 @@ public class Sketch extends PApplet
     @Override
     public void draw()
     {
+        if( Objects.isNull(displayImg)) {
+            return;
+        }
         image(displayImg,0,0);
+        
     }
 }
