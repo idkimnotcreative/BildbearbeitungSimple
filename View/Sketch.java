@@ -16,8 +16,8 @@ import java.util.Objects;
 public class Sketch extends PApplet
 {       
     private PImage displayImg;
-    private int width = 600;
-    private int height = 400;
+    //public int width = 600;
+    //public int height = 400;
 
     /**
      * settings() Methode 
@@ -36,24 +36,28 @@ public class Sketch extends PApplet
      */
     @Override
     public void setup()
-    {    
+    {            
+        //surface.setResizable(true);
     }
 
     /**
      * Aktualisiert das anzuzeigende Bild
      *
-     * @param image Das anzuzeigende PImage
+     * @param width Breite des Bildes
+     * @param height Höhe des Bildes
      * @param pixels Die Pixeldaten des Bildes
      */
-    public void updateImage( PImage image, int[] pixels )
+    public void updateImage(int width, int height, int[] pixels )
     {
-        this.displayImg = image;
+        displayImg = createImage(width, height, PApplet.RGB);
+        surface.setSize(width,height);
         this.displayImg.loadPixels();
         this.displayImg.pixels = pixels;
         this.displayImg.updatePixels();
+        
     }
 
-    
+
     /**
      * Getter für das hinterlegte PImage
      *

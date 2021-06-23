@@ -140,7 +140,9 @@ public class Picture
         width = pic.width;
         height = pic.height;
         pixels = pic.pixels;
-        if( isDisplay() ) updateDisplay(); 
+        if( isDisplay() ){
+            updateDisplay(); 
+        }
     }
 
     /*** View Methoden (beeinflussen die Anzeige) ***/
@@ -158,12 +160,12 @@ public class Picture
         if( isDisplay() ) return;
 
         sketch = new Sketch();
+        sketch.width = this.width;
+        sketch.height = this.height;
         PApplet.runSketch(new String[]{"sketch"}, sketch);  
         if( Objects.nonNull(this.initialImg) && this.initialImg != "" ){
             load(initialImg);
-        } else
-        { 
-            displayImg = sketch.createImage(width, height, PApplet.RGB);
+        } else { 
             updateDisplay();
         }
     }
@@ -197,8 +199,8 @@ public class Picture
     }
 
     private void updateDisplay()
-    {
-        if (isDisplay()) sketch.updateImage(displayImg, pixels);  
+    {  
+        if (isDisplay()) sketch.updateImage(width, height, pixels);  
     }
 
     /*** Statische Methoden (auch ohne konkretes Bildobjekt von außen nutzbar) ***/

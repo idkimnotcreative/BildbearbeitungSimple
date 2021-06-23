@@ -14,7 +14,9 @@ import org.junit.Test;
 public class Beispielzustand
 {
     private Picture p1;
-    private GeometrischeBildoperationen op1;
+    private GeometrischeBildoperationen sHori;
+    private GeometrischeBildoperationen sVerti;
+    private GeometrischeBildoperationen dLinks;
 
     /**
      * Konstruktor fuer die Test-Klasse Beispielzustand
@@ -32,9 +34,13 @@ public class Beispielzustand
     public void setUp()
     {
         p1 = new Picture("iris.jpg");
-        op1 = new GeometrischeBildoperationen();
-        op1.setOperation(1);
         p1.display();
+        sHori = new GeometrischeBildoperationen();
+        sHori.setOperation(1);
+        sVerti = new GeometrischeBildoperationen();
+        sVerti.setOperation(2);
+        dLinks = new GeometrischeBildoperationen();
+        dLinks.setOperation(3);
     }
 
     /**
