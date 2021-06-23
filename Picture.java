@@ -3,10 +3,11 @@ import processing.core.PImage;
 import java.util.Objects;
 import java.io.File;
 import javafx.scene.paint.Color;
+
 import View.Sketch;
 
 /**
- * Ein Bild, inkusive Betrachter.
+ * Ein Bild.
  * 
  * @author S. Gebert 
  * @version 06.2021
@@ -20,30 +21,62 @@ public class Picture
     private int height = 400;
     private int[] pixels;
 
+    /**
+     * Picture Konstruktor
+     *
+     */
     public Picture()
     {
     }
 
+    /**
+     * Picture Konstruktor
+     * Erstellt ein Bild 
+     * und läd das angegebene Bild aus dem images-Ordner
+     * (bisher nur zum Zeitpunkt der Darstellung)
+     *
+     * @param filename 
+     */
     public Picture(String filename)
     {
         this.initialImg = filename;      
     }
 
+    /**
+     * Getter für die Pixeldaten des Bildes
+     *
+     * @return Ein eindimensionales Array
+     */
     public int[] getPixelsArray()
     {
         return this.pixels;
     }
 
+    /**
+     * Getter für die Pixeldaten des Bildes
+     *
+     * @return Ein zweidimensionales Array
+     */
     public int[][] getPixelsTable()
     {
         return pixelsExplode(this.pixels, this.width, this.height);
     }
 
+    /**
+     * Setter für die Pixeldaten des Bildes
+     *
+     * @param pixelsArray Ein zweidimensionales Array.
+     */
     public void setPixelsArray( int[][] pixelsTable )
     {
         setPixelsArray(pixelsFlatten(pixelsTable));
     }
 
+    /**
+     * Setter für die Pixel des Bildes
+     *
+     * @param pixelsArray Ein eindimensionales Array.
+     */
     public void setPixelsArray( int[] pixelsArray )
     {
         if (isDisplay()) displayImg.loadPixels();
@@ -51,22 +84,43 @@ public class Picture
         if (isDisplay()) displayImg.updatePixels();
     }
 
+    /**
+     * Getter für die Breite des Bildes
+     *
+     * @return Breite
+     */
     public int getWidth()
     {
         return this.width;
     }
 
+    /**
+     * Getter für die Höhe des Bildes
+     *
+     * @return Höhe
+     */
     public int getHeight()
     {
         return this.height;
     }
 
+    /**
+     * Setter für die Breite und Höhe des Bildes
+     *
+     * @param width Breite
+     * @param height Höhe
+     */
     public void setDimensions (int width, int height)
     {
         this.width = width;
         this.height = height;
     }
 
+    /**
+     * Erstellt eine Kopie des aktuellen Bildes
+     *
+     * @return Kopie des Bildes.
+     */
     public Picture copy()
     {
         Picture cpy = new Picture();
@@ -75,6 +129,11 @@ public class Picture
         return cpy;
     }
 
+    /**
+     * Wendet eine Bildoperation auf das Bild an
+     *
+     * @param op Die anzuwendende Operation
+     */
     public void applyOperation(Bildoperation op)
     {
         Picture pic = op.apply(this);
@@ -90,6 +149,10 @@ public class Picture
         return Objects.nonNull(sketch);
     }
 
+    /**
+     * Zeigt das Bild an.
+     *
+     */
     public void display()
     {
         if( isDisplay() ) return;
@@ -105,8 +168,14 @@ public class Picture
         }
     }
 
+    /**
+     * Läd ein Bild aus dem images Ordner
+     * Funktioniert aktuell nur, wenn das Display aktiv ist.
+     *
+     * @param dateiname Der Dateiname
+     */
     public void load(String dateiname) {
-        //TODO: enable without sketch
+        //@FEATURE-REQUEST: enable without sketch
         if( !isDisplay()) return;
         sketch.load("images/"+dateiname); 
         displayImg = sketch.readImage();
@@ -115,8 +184,14 @@ public class Picture
         pixels = displayImg.pixels;
     }
 
+    /**
+     * Speichert das aktuell dargestellte Bild im images Ordner
+     * Funktioniert aktuell nur, wenn das Display aktiv ist.
+     *
+     * @param dateiname Der gewünschte Dateiname
+     */
     public void save(String dateiname) {
-        //TODO: enable without sketch
+        //@FEATURE-REQUEST: enable without sketch
         if( !isDisplay()) return;
         sketch.save( new File("images/"+dateiname).getAbsolutePath() );
     }
@@ -127,7 +202,7 @@ public class Picture
     }
 
     /*** Statische Methoden (auch ohne konkretes Bildobjekt von außen nutzbar) ***/
-    
+
     /**
      * Wandelt ein Color-Objekt in einen Farbwert um.
      *

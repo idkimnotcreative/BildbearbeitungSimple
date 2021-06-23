@@ -4,10 +4,10 @@ import java.util.Random;
  * Algorithmen zur Änderung der Pixelpositionen eines Pictures
  * z.B. drehen, spiegeln usw.
  *
- * @author Simon Gebert
+ * @author S. Gebert
  * @version 06.2021
  */
-public class GeometrischeBildoperationen  extends Bildoperation
+public class GeometrischeBildoperationen  implements Bildoperation
 {
     private int opCount=5; //number of operations available
     // IDs der geometrischen Operationen
@@ -27,52 +27,51 @@ public class GeometrischeBildoperationen  extends Bildoperation
     /**
      * Erstellt eine mit der aktuell aktiven geometrische Operation veränderte Kopie eines Bildes.
      *
-     * @param originalbild Das zu verändernde Bild
+     * @param originalBild Das zu verändernde Bild
      * @return Das geänderte Bild
      */
     @Override
-    public Picture apply(Picture originalbild)
+    public Picture apply(Picture originalBild)
     {
-        Picture neuesBild;
-        // Pro geometrische Operation wird hier eine Zeile benötigt, die die entprechende (private) Methode aufruft
+        // Pro geometrische Operation wird hier eine Zeile benötigt, die die entprechende Operation ausführt.
         switch( this.op ){
-            case OP_SpiegelHorizontal: neuesBild = spiegelHorizontal(originalbild);break;
-            case OP_SpiegelVertikal: neuesBild =  spiegelVertikal(originalbild);break;
-            case OP_DreheLinks: neuesBild = dreheLinks(originalbild);break;
+            case OP_SpiegelHorizontal: return spiegelHorizontal(originalBild);
+            case OP_SpiegelVertikal: return spiegelVertikal(originalBild);
+            case OP_DreheLinks: return dreheLinks(originalBild);
             case OP_DreheRechts:
             case OP_Drehe180:
             case OP_Nil:
-            default: neuesBild = originalbild.copy();
-        }
-        return neuesBild;     
+            default: return originalBild.copy();
+        }    
     }
 
-    public void setOp(int op)
+    /**
+     * Wählt eine Operation zum Ausführen via apply aus.
+     *
+     * @param op Nummer der auszuführenden Operation.
+     */
+    public void setOperation(int op)
     {
         if(op > this.opCount ) return;
         this.op = op;
     }
 
-    // Anleitung zur Erstellung e<iner weiteren geometrischen Operation.
-    // 1. Erstelle eine public Methode geometrischeOperation( Picture originalBild ),
-    //    die die aktuell gewählte Operation festlegt und anschließend ausführt. (siehe Beispiele unten)
-    // 2. Erstelle eine private Methode geometrischeOperation( Picture originalBild ),
-    //    diese führt die tatsächliche Operation durch. (siehe Beispiele unten)
-    //    Mit pixelsExplode( ... ) und pixelsFlatten(...) können Bilddaten 
-    //    zwischen eindimensionaler und zweidimensionaler Darstellung umgewandelt werden.
+    // Anleitung zur Erstellung einer weiteren geometrischen Operation.
+    // 1. Erstelle eine Methode mit der Signatur "public Picture meineGeometrischeOperation( Picture originalBild )",
+    //    (siehe Beispiele unten)
+    // 2. Passe wenn nötig die Methode apply an (siehe oben)
+    //    und erstelle falls nötig eine neue Konstante "int OP_meineGeometrischeOperation".
     //
 
     /** 
-     * spiegeleHorizontal spiegelt das Bild, so dass rechts und links getauscht werden
-     * @param originalbild Ein Bild (Picture), das gespiegelt werden soll
+     * Spiegelt das Bild, so dass rechts und links getauscht werden
+     * @param originalBild Ein Bild (Picture), das gespiegelt werden soll
      */
-    public Picture spiegelHorizontal(Picture originalbild) {
-        this.op = OP_SpiegelHorizontal; 
+    public Picture spiegelHorizontal(Picture originalBild) {
+        int breite = originalBild.getWidth();
+        int hoehe  = originalBild.getHeight();
 
-        int breite = originalbild.getWidth();
-        int hoehe  = originalbild.getHeight();
-
-        int[][] pixel = originalbild.getPixelsTable();
+        int[][] pixel = originalBild.getPixelsTable();
         int[][] pixelNeu = new int[breite][hoehe];
 
         for(int x=0; x < breite; x++) {
@@ -80,41 +79,42 @@ public class GeometrischeBildoperationen  extends Bildoperation
                 pixelNeu[x][y] = pixel[(breite-1)-x][y];
             }
         }
-        Picture neuesBild = originalbild.copy();
+        Picture neuesBild = originalBild.copy();
         neuesBild.setPixelsArray(pixelNeu);
         return neuesBild;
     }
 
     /** 
-     * spiegeleVertikal spiegelt das Bild, so dass oben und unten getauscht werden
-     * @param originalbild Ein Bild (Picture), das gespiegelt werden soll
+     * Spiegelt das Bild, so dass oben und unten getauscht werden
+     * @param originalBild Ein Bild (Picture), das gespiegelt werden soll
      * @return Eine gespiegelte Kopie des Bildes
      */
-    public Picture spiegelVertikal(Picture originalbild) {
-        this.op = OP_SpiegelVertikal; 
-        // originalbild.runOp(  );
+    public Picture spiegelVertikal(Picture originalBild) {
+        int breite = originalBild.getWidth();
+        int hoehe  = originalBild.getHeight();
 
-        int breite = originalbild.getWidth();
-        int hoehe  = originalbild.getHeight();
-
-        int[][] pixel = originalbild.getPixelsTable();
+        int[][] pixel = originalBild.getPixelsTable();
         int[][] pixelNeu = new int[breite][hoehe];
 
         for(int x=0; x < breite; x++) {
             for(int y=0;y < hoehe; y++) {
-                pixelNeu[x][y] = pixel[x][(hoehe-1)-y];
+                pixelNeu[x][y] = pixel[x][y]; //@TODO: Passe diese Zeile so an, dass Vertikal gespiegelt wird.
             }
         }
-        Picture neuesBild = originalbild.copy();
+        Picture neuesBild = originalBild.copy();
         neuesBild.setPixelsArray(pixelNeu); 
         return neuesBild;
     }
-
-    public Picture dreheLinks( Picture originalbild) {
-        this.op = OP_DreheLinks;
-        //originalbild.runOp(  );
-
-        return originalbild.copy();
+   
+    /**
+     * Dreht ein Bild um 90 Grad gegen den Uhrzeigersinn
+     *
+     * @param originalBild Ein Bild (Picture), das gedreht werden soll
+     * @return Eine um 90 Grad gegen den Uhrzeigersinn gedrehte Kopie des Bildes
+     */
+    public Picture dreheLinks( Picture originalBild) {
+        //@TODO: Kopiere Code aus einer der bereits implementierten Operationen und passe entprechend an.
+        return originalBild.copy();
     }
 
 }

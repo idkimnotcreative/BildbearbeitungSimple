@@ -8,8 +8,8 @@ import org.junit.Test;
 /**
  * Die Test-Klasse BeispielbildTest.
  *
- * @author  (Ihr Name)
- * @version (eine Versionsnummer oder ein Datum)
+ * @author  S. Gebert
+ * @version 06.2021
  */
 public class Beispielzustand
 {
@@ -33,7 +33,7 @@ public class Beispielzustand
     {
         p1 = new Picture("iris.jpg");
         op1 = new GeometrischeBildoperationen();
-        op1.setOp(1);
+        op1.setOperation(1);
         p1.display();
     }
 

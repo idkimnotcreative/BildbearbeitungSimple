@@ -39,6 +39,12 @@ public class Sketch extends PApplet
     {    
     }
 
+    /**
+     * Aktualisiert das anzuzeigende Bild
+     *
+     * @param image Das anzuzeigende PImage
+     * @param pixels Die Pixeldaten des Bildes
+     */
     public void updateImage( PImage image, int[] pixels )
     {
         this.displayImg = image;
@@ -46,7 +52,13 @@ public class Sketch extends PApplet
         this.displayImg.pixels = pixels;
         this.displayImg.updatePixels();
     }
+
     
+    /**
+     * Getter für das hinterlegte PImage
+     *
+     * @return Das PImage
+     */
     public PImage readImage()
     {
         return this.displayImg;
@@ -84,6 +96,6 @@ public class Sketch extends PApplet
             return;
         }
         image(displayImg,0,0);
-        
+
     }
 }
