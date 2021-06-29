@@ -4,7 +4,6 @@ import java.util.Objects;
 import java.io.File;
 import javafx.scene.paint.Color;
 
-
 /**
  * Ein Bild.
  * 
@@ -51,6 +50,16 @@ public class Picture
         return this.pixels;
     }
 
+    public Color[] getPixelsColorArray()
+    {
+        Color[] pixels= new Color[this.pixels.length];
+
+        for(int i = 0; i < pixels.length; i++){
+            pixels[i] = color(this.pixels[i]);
+        }
+        return pixels;
+    }
+
     /**
      * Getter für die Pixeldaten des Bildes
      *
@@ -61,12 +70,22 @@ public class Picture
         return pixelsExplode(this.pixels, this.width, this.height);
     }
 
+    public Color[][] getPixelsColorTable()
+    {
+        return pixelsColorExplode(this.pixels, this.width, this.height);
+    }
+
     /**
      * Setter für die Pixeldaten des Bildes
      *
      * @param pixelsArray Ein zweidimensionales Array.
      */
     public void setPixelsArray( int[][] pixelsTable )
+    {
+        setPixelsArray(pixelsFlatten(pixelsTable));
+    }
+
+    public void setPixelsArray( Color[][] pixelsTable )
     {
         setPixelsArray(pixelsFlatten(pixelsTable));
     }
@@ -224,7 +243,7 @@ public class Picture
 
         return O | R | G | B; 
     }
-    
+
     /**
      * Wandelt einen Farbwert in ein Color-Objekt um.
      *
@@ -258,6 +277,18 @@ public class Picture
         return pixels2D;
     }
 
+    public static Color[][] pixelsColorExplode( int[] pixels, int width, int height )
+    {
+        Color[][] pixels2D = new Color[width][height];
+        for(int i = 0; i < width; i++){
+            for( int k = 0; k < height; k++ ){
+                pixels2D[i][k] = color(pixels[i + k*width]);
+
+            }
+        }
+        return pixels2D;
+    }
+
     /**
      * Wandelt Bilddaten (Pixel) aus einem zweidimensionalen Array zu Bilddaten in einem eindimensionalen Array um.
      * @param pixels Zweidimensionales Array mit Bilddaten
@@ -269,6 +300,17 @@ public class Picture
         for( int i = 0; i < pixels2D.length; i++ ){
             for( int k = 0; k < pixels2D[0].length; k++ ){
                 pixels[i+k*pixels2D.length] = pixels2D[i][k];
+            }
+        }
+        return pixels;
+    }
+
+    public static int[] pixelsFlatten( Color[][] pixels2D )
+    {
+        int[] pixels = new int[ pixels2D.length * pixels2D[0].length ];
+        for( int i = 0; i < pixels2D.length; i++ ){
+            for( int k = 0; k < pixels2D[0].length; k++ ){
+                pixels[i+k*pixels2D.length] = color(pixels2D[i][k]);
             }
         }
         return pixels;
