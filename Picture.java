@@ -4,7 +4,6 @@ import java.util.Objects;
 import java.io.File;
 import javafx.scene.paint.Color;
 
-import View.Sketch;
 
 /**
  * Ein Bild.
@@ -216,13 +215,29 @@ public class Picture
         int R = (int)Math.round(255 * color.getRed());
         int G = (int)Math.round(255 * color.getGreen());
         int B = (int)Math.round(255 * color.getBlue());
+        int O = (int)Math.round(255* color.getOpacity());
 
+        O = (O << 24) & 0xFF000000;
         R = (R << 16) & 0x00FF0000; 
         G = (G << 8) & 0x0000FF00; 
         B = B & 0x000000FF; 
 
-        return 0xFF000000 | R | G | B; 
-    } 
+        return O | R | G | B; 
+    }
+    
+    /**
+     * Wandelt einen Farbwert in ein Color-Objekt um.
+     *
+     * @param color Farbwert
+     * @return Color Objekt
+     */
+    public static Color color(int color)
+    {
+        float R = ((color & 0x00FF0000)>>16)/255.0f;
+        float G = ((color & 0x0000FF00)>>8)/255.0f;
+        float B = (color & 0x000000FF)/255.0f;
+        return new Color(R,G,B,1);
+    }
 
     /**
      * Wandelt Bilddaten (Pixel) aus einem eindimensionalen Array zu Bilddaten in einem zweidimensionalen Array um.
