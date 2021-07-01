@@ -76,7 +76,7 @@ public class GeometrischeBildoperationen  implements Bildoperation
 
         for(int x=0; x < breite; x++) {
             for(int y=0;y < hoehe; y++) {
-                pixelNeu[x][y] = pixel[(breite-1)-x][y];
+                pixelNeu[x][y] = pixel[x][y];
             }
         }
         Picture neuesBild = originalBild.copy();
@@ -98,7 +98,7 @@ public class GeometrischeBildoperationen  implements Bildoperation
 
         for(int x=0; x < breite; x++) {
             for(int y=0;y < hoehe; y++) {
-                pixelNeu[x][y] = pixel[x][y]; //@TODO: Passe diese Zeile so an, dass Vertikal gespiegelt wird.
+                pixelNeu[x][y] = pixel[x][(hoehe-1)-y]; //@TODO: Passe diese Zeile so an, dass Vertikal gespiegelt wird.
             }
         }
         Picture neuesBild = originalBild.copy();
@@ -114,7 +114,23 @@ public class GeometrischeBildoperationen  implements Bildoperation
      */
     public Picture dreheLinks( Picture originalBild) {
         //@TODO: Kopiere Code aus einer der bereits implementierten Operationen und passe entprechend an.
-        return originalBild.copy();
+        int hoehe = originalBild.getWidth();
+        int breite  = originalBild.getHeight();
+        int hoeheNew = breite;
+        int breiteNew = hoehe;
+        int[][] pixel = originalBild.getPixelsTable();
+        int[][] pixelNeu = new int[breiteNew][hoeheNew];
+
+        for(int x=0; x < breiteNew; x++) {
+            for(int y=0;y < hoeheNew; y++) {
+                                if(y>390 || x>390) System.out.println("Daten: x="+x+" y="+y+" hoeheNew="+hoeheNew+" breiteNew="+breiteNew);
+
+                pixelNeu[x][y] = pixel[(hoeheNew-1)-y][x]; //@TODO: Passe diese Zeile so an, dass Vertikal gespiegelt wird.
+            }
+        }
+        Picture neuesBild = originalBild.copy();
+        neuesBild.setPixelsArray(pixelNeu); 
+        return neuesBild;
     }
 
 }
