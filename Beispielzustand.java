@@ -17,6 +17,20 @@ public class Beispielzustand
     private GeometrischeBildoperationen sHori;
     private GeometrischeBildoperationen sVerti;
     private GeometrischeBildoperationen dLinks;
+    private PixelOperationen pixelOpe1;
+    private PixelOperationen pixelOpe2;
+    private Picture graumin;
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
 
     /**
      * Konstruktor fuer die Test-Klasse Beispielzustand
@@ -35,12 +49,16 @@ public class Beispielzustand
     {
         p1 = new Picture("iris.jpg");
         p1.display();
-        sHori = new GeometrischeBildoperationen();
-        sHori.setOperation(1);
-        sVerti = new GeometrischeBildoperationen();
-        sVerti.setOperation(2);
-        dLinks = new GeometrischeBildoperationen();
-        dLinks.setOperation(3);
+        // sHori = new GeometrischeBildoperationen();
+        // sHori.setOperation(1);
+        // sVerti = new GeometrischeBildoperationen();
+        // sVerti.setOperation(2);
+        // dLinks = new GeometrischeBildoperationen();
+        // dLinks.setOperation(3);
+        pixelOpe1 = new PixelOperationen();
+        pixelOpe2 = new PixelOperationen();
+        graumin = pixelOpe1.graumin(p1);
+        graumin.display();
     }
 
     /**

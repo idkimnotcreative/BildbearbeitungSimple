@@ -114,8 +114,8 @@ public class GeometrischeBildoperationen  implements Bildoperation
      */
     public Picture dreheLinks( Picture originalBild) {
         //@TODO: Kopiere Code aus einer der bereits implementierten Operationen und passe entprechend an.
-        int hoehe = originalBild.getWidth();
-        int breite  = originalBild.getHeight();
+        int breite = originalBild.getWidth();
+        int hoehe  = originalBild.getHeight();
         int hoeheNew = breite;
         int breiteNew = hoehe;
         int[][] pixel = originalBild.getPixelsTable();
@@ -123,12 +123,13 @@ public class GeometrischeBildoperationen  implements Bildoperation
 
         for(int x=0; x < breiteNew; x++) {
             for(int y=0;y < hoeheNew; y++) {
-                                if(y>390 || x>390) System.out.println("Daten: x="+x+" y="+y+" hoeheNew="+hoeheNew+" breiteNew="+breiteNew);
+                                // if(y>390 || x>390) System.out.println("Daten: x="+x+" y="+y+" hoeheNew="+hoeheNew+" breiteNew="+breiteNew);
 
                 pixelNeu[x][y] = pixel[(hoeheNew-1)-y][x]; //@TODO: Passe diese Zeile so an, dass Vertikal gespiegelt wird.
             }
         }
         Picture neuesBild = originalBild.copy();
+        neuesBild.setDimensions(breiteNew, hoeheNew);
         neuesBild.setPixelsArray(pixelNeu); 
         return neuesBild;
     }

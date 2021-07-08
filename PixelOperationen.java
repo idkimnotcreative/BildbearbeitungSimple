@@ -1,4 +1,5 @@
 import java.util.Random;
+import javafx.scene.paint.Color;
 
 /**
  * Algorithmen zur Änderung der Pixelpositionen eines Pictures
@@ -35,7 +36,7 @@ public class PixelOperationen  implements Bildoperation
     {
         // Pro geometrische Operation wird hier eine Zeile benötigt, die die entprechende Operation ausführt.
         switch( this.op ){
-            case OP_SpiegelHorizontal: return spiegelHorizontal(originalBild);
+            // case OP_SpiegelHorizontal: return spiegelHorizontal(originalBild);
             case OP_DreheRechts:
             case OP_Drehe180:
             case OP_Nil:
@@ -65,22 +66,67 @@ public class PixelOperationen  implements Bildoperation
      * Spiegelt das Bild, so dass rechts und links getauscht werden
      * @param originalBild Ein Bild (Picture), das gespiegelt werden soll
      */
-    public Picture spiegelHorizontal(Picture originalBild) {
+    public Picture graustufendurchschnitt (Picture originalBild) {
         int breite = originalBild.getWidth();
         int hoehe  = originalBild.getHeight();
 
-        int[][] pixel = originalBild.getPixelsTable();
-        int[][] pixelNeu = new int[breite][hoehe];
+        Color[][] pixel = originalBild.getPixelsColorTable();
+        Color[][] pixelNeu = new Color[breite][hoehe];
 
         for(int x=0; x < breite; x++) {
             for(int y=0;y < hoehe; y++) {
-                pixelNeu[x][y] = pixel[x][y];
+                double red=pixel[x][y].getRed();
+                double green=pixel[x][y].getGreen();
+                double blue=pixel[x][y].getBlue();
+                double average= (red+green+blue)/3;
+                pixelNeu[x][y] = new Color (average,average, average,1.0);
             }
         }
         Picture neuesBild = originalBild.copy();
         neuesBild.setPixelsArray(pixelNeu);
         return neuesBild;
     }
+    public Picture graumin (Picture originalBild) {
+        int breite = originalBild.getWidth();
+        int hoehe  = originalBild.getHeight();
+
+        Color[][] pixel = originalBild.getPixelsColorTable();
+        Color[][] pixelNeu = new Color[breite][hoehe];
+
+        for(int x=0; x < breite; x++) {
+            for(int y=0;y < hoehe; y++) {
+                double red=pixel[x][y].getRed();
+                double green=pixel[x][y].getGreen();
+                double blue=pixel[x][y].getBlue();
+                double min= Math.min(red, Math.min(green,blue));
+                pixelNeu[x][y] = new Color (min,min,min,1.0);
+            }
+        }
+        Picture neuesBild = originalBild.copy();
+        neuesBild.setPixelsArray(pixelNeu);
+        return neuesBild;
+    }
+    public Picture graumax (Picture originalBild) {
+        int breite = originalBild.getWidth();
+        int hoehe  = originalBild.getHeight();
+
+        Color[][] pixel = originalBild.getPixelsColorTable();
+        Color[][] pixelNeu = new Color[breite][hoehe];
+
+        for(int x=0; x < breite; x++) {
+            for(int y=0;y < hoehe; y++) {
+                double red=pixel[x][y].getRed();
+                double green=pixel[x][y].getGreen();
+                double blue=pixel[x][y].getBlue();
+                double max= Math.max(red, Math.max(green,blue));
+                pixelNeu[x][y] = new Color (max,max,max,1.0);
+            }
+        }
+        Picture neuesBild = originalBild.copy();
+        neuesBild.setPixelsArray(pixelNeu);
+        return neuesBild;
+    }
+    
 
 
 }
