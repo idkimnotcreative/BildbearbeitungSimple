@@ -55,10 +55,10 @@ public class Beispielzustand
         // sVerti.setOperation(2);
         // dLinks = new GeometrischeBildoperationen();
         // dLinks.setOperation(3);
-        pixelOpe1 = new PixelOperationen();
-        pixelOpe2 = new PixelOperationen();
-        graumin = pixelOpe1.graumin(p1);
-        graumin.display();
+        // pixelOpe1 = new PixelOperationen();
+        // pixelOpe2 = new PixelOperationen();
+        // graumin = pixelOpe1.graumin(p1);
+        // graumin.display();
     }
 
     /**
